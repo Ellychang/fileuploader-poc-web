@@ -1,0 +1,38 @@
+<style>
+  .section {
+    margin-bottom: 2rem;
+    /* space between sections */
+  }
+
+  p {
+    margin: 0;
+    color: var(--gray-700);
+  }
+
+  main {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;   /* <-- add this */
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    box-sizing: inherit;
+    position: relative;
+  }
+</style>
+
+<main class="main">
+  <div class="section">
+    <h1>Hello, {{ title() }}</h1>
+  </div>
+  <div class="section">
+    <p>Congratulations! Your app is running. 🎉</p>
+  </div>
+  <div class="section">
+    <h1>Simple File Uploader</h1>
+    <app-file-upload></app-file-upload>
+  </div>
+
+</main>
+<router-outlet />
