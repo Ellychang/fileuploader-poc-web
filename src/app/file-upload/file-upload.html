@@ -1,8 +1,13 @@
-<div>
+<div class="upload-container">
   <input type="file" (change)="onFileSelected($event)" />
-  <button type="button" (click)="upload()">Upload</button>
-</div>
+  <button type="button" (click)="upload()" [disabled]="!fileControl.value || isUploading()">
+    {{ isUploading() ? 'Uploading…' : 'Upload' }}
+  </button>
 
-<p *ngIf="fileControl.value">
-  Selected file: {{ fileControl.value.name }}
-</p>
+  @if (message()) {
+ <p [class.success]="!isError()" [class.error]="isError()">
+    {{ message() }}
+  </p>
+  }
+ 
+</div>

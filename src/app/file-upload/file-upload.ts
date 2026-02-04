@@ -1,20 +1,22 @@
-import { Component } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { Component, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { FileApiService } from '../services/file-api';
+
 
 @Component({
   selector: 'app-file-upload',
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule],
   standalone: true,
-  providers: [HttpClient],
   templateUrl: './file-upload.html',
   styleUrl: './file-upload.scss',
 })
 export class FileUpload {
   fileControl = new FormControl<File | null>(null);
+  message = signal<string | null>(null);
+  isError = signal(false);
+  isUploading = signal(false);
 
-  constructor(private http: HttpClient) {}
+  constructor(private fileApi: FileApiService) {}
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -26,13 +28,33 @@ export class FileUpload {
     const file = this.fileControl.value;
     if (!file) return;
 
-    const formData = new FormData();
-    formData.append('file', file);
+    // this.isUploading = true;
+    // this.message = null;
+    // this.isError = false;
 
-    this.http.post('https://localhost:5001/api/file/upload', formData)
-      .subscribe({
-        next: res => console.log('Upload successful', res),
-        error: err => console.error('Upload failed', err)
-      });
+    this.isUploading.set(true);
+    this.message.set(null);
+    this.isError.set(false);
+
+    this.fileApi.uploadFile(file).subscribe({
+      next: () => {
+          // this.message = 'Upload successful 🎉';
+          // this.isError = false;
+          // this.isUploading = false;
+           this.message.set('Upload successful 🎉');
+        this.isError.set(false);
+        this.isUploading.set(false);
+          this.fileControl.reset();
+
+      },
+      error: () => {
+        // this.message = 'Upload failed. Please try again.';
+        // this.isError = true;
+        // this.isUploading = false;
+         this.message.set('Upload failed. Please try again.');
+        this.isError.set(true);
+        this.isUploading.set(false);
+      }
+    });
   }
 }
