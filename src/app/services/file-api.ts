@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { UploadedFile } from '../models/uploaded-file';
 
 @Injectable({
   providedIn: 'root'
@@ -20,4 +21,9 @@ export class FileApiService {
       tap(res => console.log('API response', res))
     );
   }
+
+   getUploadedFiles(): Observable<UploadedFile[]> {
+    return this.http.get<UploadedFile[]>(`${this.baseUrl}`);
+  }
+  
 }

@@ -1,0 +1,20 @@
+<div class="uploaded-files-container">
+
+    @if (uploadedFilesSignal().length === 0) {
+    <p>No files uploaded yet.</p>
+    }
+
+
+    @if (uploadedFilesSignal().length > 0) {
+    <ul>
+        @for (file of uploadedFilesSignal(); track file.id) {
+        <li>
+            <strong>{{ getFileName(file.filePath) }}</strong>
+            <span class="date">{{ formatDate(file.uploadedAt) }}</span>
+        </li>
+        }
+
+    </ul>
+    }
+
+</div>

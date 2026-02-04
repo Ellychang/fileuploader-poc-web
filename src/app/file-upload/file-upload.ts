@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FileApiService } from '../services/file-api';
+import { uploadedFilesSignal } from '../file-state';
 
 
 @Component({
@@ -10,13 +11,24 @@ import { FileApiService } from '../services/file-api';
   templateUrl: './file-upload.html',
   styleUrl: './file-upload.scss',
 })
-export class FileUpload {
+export class FileUpload implements OnInit {
   fileControl = new FormControl<File | null>(null);
   message = signal<string | null>(null);
   isError = signal(false);
   isUploading = signal(false);
 
-  constructor(private fileApi: FileApiService) {}
+  constructor(private fileApi: FileApiService) { }
+  ngOnInit() {
+    // Fetch initial files on load
+    this.loadInitialFiles();
+  }
+
+  loadInitialFiles() {
+    this.fileApi.getUploadedFiles().subscribe({
+      next: (data) => uploadedFilesSignal.set(data),
+      error: () => console.error('Failed to load initial files')
+    });
+  }
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -28,30 +40,22 @@ export class FileUpload {
     const file = this.fileControl.value;
     if (!file) return;
 
-    // this.isUploading = true;
-    // this.message = null;
-    // this.isError = false;
-
     this.isUploading.set(true);
     this.message.set(null);
     this.isError.set(false);
 
     this.fileApi.uploadFile(file).subscribe({
-      next: () => {
-          // this.message = 'Upload successful 🎉';
-          // this.isError = false;
-          // this.isUploading = false;
-           this.message.set('Upload successful 🎉');
+      next: (uploadedFile) => {
+        uploadedFilesSignal.update(current => [uploadedFile, ...current]);
+
+        this.message.set('Upload successful 🎉');
         this.isError.set(false);
         this.isUploading.set(false);
-          this.fileControl.reset();
+        this.fileControl.reset();
 
       },
       error: () => {
-        // this.message = 'Upload failed. Please try again.';
-        // this.isError = true;
-        // this.isUploading = false;
-         this.message.set('Upload failed. Please try again.');
+        this.message.set('Upload failed. Please try again.');
         this.isError.set(true);
         this.isUploading.set(false);
       }

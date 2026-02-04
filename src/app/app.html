@@ -13,7 +13,8 @@
     width: 100%;
     min-height: 100%;
     display: flex;
-    flex-direction: column;   /* <-- add this */
+    flex-direction: column;
+    /* <-- add this */
     justify-content: center;
     align-items: center;
     padding: 1rem;
@@ -33,6 +34,11 @@
     <h1>Simple File Uploader</h1>
     <app-file-upload></app-file-upload>
   </div>
+  <div class="section">
+    <h1>Uploaded Files</h1>
+    <app-uploaded-files-list></app-uploaded-files-list>
+  </div>
+
 
 </main>
 <router-outlet />
