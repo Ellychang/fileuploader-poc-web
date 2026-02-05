@@ -1,59 +1,80 @@
-# MyPocWeb
+ POC – Record & File Storage Web
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
+## Overview
 
-## Development server
+This project is a **proof of concept (POC)** built as part of a technical interview exercise.
+It demonstrates a lightweight approach to storing records that reference uploaded files, exposed via an API and consumed by an Angular frontend.
 
-To start a local development server, run:
+---
+
+## Tech Stack
+
+* **Frontend:** [Angular](https://github.com/angular/angular-cli) version 21.1.2.
+* **Version control:** GitHub
+
+---
+
+## Data Model
+
+Each record consists of:
+
+* `Id` – unique identifier
+* `FilePath` – path to the uploaded file
+* `UploadedAt` – timestamp
+
+This keeps the model intentionally minimal for the POC.
+
+---
+
+## API Endpoints (Calls from Web)
+
+* `GET /records`
+  Returns all stored records
+
+* `POST /upload`
+  Uploads a file and returns its file URL
+
+(Additional endpoints can be added easily if required.)
+
+---
+
+## Testing Strategy
+
+Given this is a **POC**, the emphasis was on delivering core functionality quickly.
+No unit tests have been created for this POC.
+
+* Unit tests of each component and service should be introduced to check for functionality completeness.
+
+---
+
+## Running the Project
+
+### Backend API
+
+* Please run the other API project, it should load http://localhost:5064/swagger/index.html 
+
+### Frontend
 
 ```bash
+cd fileuploader-poc-web
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## Future Improvements (Frontend)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+If this were to evolve beyond a POC:
 
-```bash
-ng generate component component-name
-```
+* UX design look and feel to be implemented
+* Put into a component library to be used by other Angulars projects
+* Add validation and error-handling
+* Test coverage and add it into the pipeline
+* Add CI pipeline for the component library
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+## Notes
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This POC is intentionally simple.
