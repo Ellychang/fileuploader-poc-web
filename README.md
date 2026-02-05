@@ -3,7 +3,7 @@
 ## Overview
 
 This project is a **proof of concept (POC)** built as part of a technical interview exercise.
-It demonstrates a lightweight approach to storing records that reference uploaded files, exposed via an API and consumed by an Angular frontend.
+It demonstrates an Angular frontend for capturing and storing files, and also lists the uploaded files by calling APIs.
 
 ---
 
@@ -26,12 +26,12 @@ This keeps the model intentionally minimal for the POC.
 
 ---
 
-## API Endpoints (Calls from Web)
+## API Endpoints (Calls from Web, see https://github.com/Ellychang/fileuploader-poc)
 
-* `GET /records`
+* `GET /api/file`
   Returns all stored records
 
-* `POST /upload`
+* `POST /api/file/upload`
   Uploads a file and returns its file URL
 
 (Additional endpoints can be added easily if required.)
